@@ -1,0 +1,186 @@
+
+.page {
+    margin: 2.5em auto;
+    max-width: 90%;
+}
+.page__wrapper, .head__wrapper {
+    padding: 0.5em;
+}
+.navbar {
+    margin: 0.5em;
+    margin-bottom: 0;
+}
+
+.uvod, section {
+    margin-bottom: 5em;
+}
+
+.uvod {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    /*width: 100%;*/
+    max-width: 100%;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+.uvod__text {
+    margin-top: 1em;
+    margin-left: 1em;
+}
+.uvod__wrapper {
+    /*flex-grow: 1;*/
+    width: 80%;
+    z-index: 4;
+    background: linear-gradient(58deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0) 100%);
+}
+.uvod__text .btn {
+    margin-top: 2em;
+}
+.uvod__img {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 100%;
+}
+.uvod__img img {
+    margin-top: 1.5em;
+}
+.cards__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+
+/* KARUSEL
+.cards__wrapper {
+    display: flex;
+    gap: 1em;
+    overflow-x: scroll;
+    white-space: nowrap;
+    margin: 0 1rem 1rem 1rem;
+}
+.card {
+    margin: 1em;
+}
+    */
+/*.predstaveni__uvod {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+.predstaveni__img {max-width: 12em;}*/
+.predstaveni__header {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: solid 2px blue;
+}
+.predstaveni__img {
+    max-width: 4em;
+    border-radius: 2em;
+    overflow: hidden;
+    padding: 0.25em;
+    background: var(--gradientBg);
+}
+.predstaveni__img img {
+    border-radius: 1.85em;
+}
+
+
+.log__wrapper {
+    padding: 1.5em;
+    margin: 1em;
+    max-width: 500px;
+}
+.log__btns {margin: 3em 0;}
+
+
+
+
+@media (min-width: 538px) {
+    .page__wrapper {
+        padding: 0.5em 2em;
+    }
+    .head__wrapper {
+        margin: 1em;
+        margin-bottom: 0;
+        margin-top: 0.5em;
+    }
+    .uvod__text .btn {
+        margin-top: 3em;
+    }
+    .uvod__popis {margin-right: 2em;}
+
+   /* .predstaveni__uvod {
+        flex-direction: row;
+    }
+    .predstaveni__uvod p {
+        flex-grow: 2;
+    }
+    .predstaveni__img {
+        flex-grow: 1;
+    }*/
+    
+    
+}
+
+@media (min-width: 961px) {
+    .uvod {
+        display: flex;
+        flex-direction: row;
+        gap: 0;
+        /*width: 100%;*/
+        /*max-width: 100%;*/
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
+    }
+    .uvod__wrapper {
+        /*flex-grow: 1;*/
+        width: 70%;
+        z-index: 4;
+        background: linear-gradient(58deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0) 100%);
+    }
+    .uvod__popis {
+        margin-right: 8em;
+    }
+    .uvod__text .btn {
+        margin-top: 4em;
+        margin-bottom: 2em;
+    }
+    .page__wrapper {
+        padding: 0.5em 4em;
+    }
+    .uvod, section {
+        margin-bottom: 8em;
+    }
+
+    .uvod__text {
+        margin-top: 4em;
+        margin-left: 2em;
+    }
+    .uvod__img {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        height: 100%;
+    }
+
+}
+
+@media (min-width: 1461px) {
+
+    .uvod, section {
+        margin-bottom: 12em;
+    }
+    .page {
+        margin: 4em auto;
+        max-width: 1200px;
+    }
+}

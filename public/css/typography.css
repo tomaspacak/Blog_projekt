@@ -1,0 +1,79 @@
+:root {
+    --text:#545454;
+    --primalC: #f5841f;
+    --secondaryC: #16213C;
+    --gradientBg: linear-gradient(to right, #fd935a, #83cfef);
+    --bg:#ffffff;
+    --btnH: #acd4f7;
+    --cardBg:#2A2A2A;
+    --bg-footer:#47474D;
+    --text-footer:#d7d7d7;
+}
+
+html{
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--text);
+}
+h1 {
+    font-size: clamp(1.6rem, 4.5vw, 3rem);
+    color: var(--primalC);
+}
+h2 {
+    font-size: clamp(1.4rem, 3vw, 2.5rem);
+}
+h3, .log__title {
+    font-size: clamp(1.1rem, 1.8vw, 2rem);
+}
+h2, h3, h4, .log__title {
+    color: var(--secondaryC);
+}
+.log__title {position: relative;}
+
+.text--center {text-align: center;}
+.secondaryC {color: var(--secondaryC);}
+a:not(.link) {
+    text-decoration: none;
+
+}
+
+.link {color: var(--secondaryC);}
+.link:hover {color: var(--primalC);}
+.link--log {color: var(--text);}
+.link--log:hover {color: var(--primalC);}
+
+.navrhy__mail {
+    font-weight: 800;
+    font-size: 1.3em;
+    color: var(--primalC);
+}
+
+
+
+
+/*footer*/
+.footer__odkaz {
+    text-decoration: none;
+    color: var(--footerText);
+    font-weight: 400;
+    font-size: 12px;
+}
+.footer__odkaz:hover {
+    color: var(--primarColor);
+}
+.footer__neodkaz {
+    text-decoration: none;
+    color: var(--footerText);
+    font-weight: 400;
+    font-size: 12px;
+}
+.footer__title {
+    font-weight: 800;
+    font-size: 18px;
+    margin: 0;
+}
+.footer__paticka {
+    font-weight: 400;
+    font-size: 11px;
+}
