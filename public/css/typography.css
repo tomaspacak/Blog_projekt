@@ -21,10 +21,10 @@ h1 {
     color: var(--primalC);
 }
 h2 {
-    font-size: clamp(1.4rem, 3vw, 2.5rem);
+    font-size: clamp(1.4rem, 3vw, 2rem);
 }
 h3, .log__title {
-    font-size: clamp(1.1rem, 1.8vw, 2rem);
+    font-size: clamp(1.1rem, 1.8vw, 1.7rem);
 }
 h2, h3, h4, .log__title {
     color: var(--secondaryC);

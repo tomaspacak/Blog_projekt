@@ -28,7 +28,7 @@
                     </div>
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
-                            <li class="menu__item"><a href="./clanky.html">Články</a></li>
+                            <li class="menu__item"><a href="./clanky.php">Články</a></li>
                             <li class="menu__item"><a href="#">Služby</a></li>
                             <li class="menu__item"><a href="#">O mně</a></li>
                             <?php if (isset($_SESSION['username'])): ?>
@@ -40,10 +40,10 @@
                                 </li>
                             <?php else: ?>
                                 <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/login.html">Přihlášení</a>
+                                    <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
                                 </li>
                                 <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/register.html">Registrace</a>
+                                    <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
                                 </li>
                             <?php endif; ?>
                         </menu>

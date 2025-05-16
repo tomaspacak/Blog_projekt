@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+/*if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../controllers/book_list.php");
+    exit();
+}
+*/
+?>
 <!DOCTYPE html>
 <html lang="cz">
 <head>
@@ -40,10 +49,10 @@
                                 </li>
                             <?php else: ?>
                                 <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/login.html">Přihlášení</a>
+                                    <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
                                 </li>
                                 <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/register.html">Registrace</a>
+                                    <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
                                 </li>
                             <?php endif; ?>
                         </menu>
@@ -66,7 +75,9 @@
         </header>
 
         <main class="page__wrapper">
-            
+
+        <?php if (isset($_SESSION['user_id'])): ?>
+
             <section class="cards">
                 <h2 class="title title2 cards__title">Přehled článků</h2>
                 <div></div>
@@ -90,7 +101,32 @@
                     <a class="btn" href="mailto:obchod@l3web.cz">Napsat Email</a>
                 </div>
             </section>
+        <?php else: ?>
+            <div class="warning">
+                <p class="warning__title">Nejste přihlášen</p>
+                <p>Přihlášení uživatelé mají přístup ke <b>všem článkům</b> zdarma i smožností interakce.</p>
+                <div class="text--center">
+                    <a class="btn btn--log" href="../auth/login.php">Přihlásit se</a>
+                    <p class="text--s">Nemáte účet?</p>
+                    <a class="btn" href="../auth/register.php">Registrace</a>
+                </div>
+            </div>
+            <style>
+                .warning {
+                    padding: 1em;
+                    border-radius: 1em;
+                    background-color: #e8f2ff;
+                    border: 0.3em solid var(--secondaryC);
+                    margin: 0 auto;
+                    margin-bottom: 2em;
+                    max-width: 800px;
+                }
+                .warning__title {color: var(--secondaryC); font-weight: 600; font-size: 1.5em;margin-bottom: 0;}
+                .text--s {font-size: 0.8em;}
+                .warning > div {max-width: 60%;margin: 2em auto;}
+            </style>
 
+        <?php endif; ?>
         </main>
 
         <footer>

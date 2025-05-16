@@ -234,6 +234,16 @@ form {margin-top: 2em; /*text-align: right;*/}
 }
 
 
+
+.warning {
+    padding: 1em;
+    border-radius: 1em;
+    background-color: #e8f2ff;
+    border: 0.3em solid var(--secondaryC);
+    margin-bottom: 2em;
+}
+
+
 /*foooter*/
 footer {
     background-color: var(--bg-footer);
@@ -386,7 +396,7 @@ footer {
 
 .hamburger-nav {transform: translateY(-100%); transition: 0.5s;}
 
-@media screen and (max-width: 839px) { 
+@media screen and (max-width: 849px) { 
     .hamburger-row {
         position: relative;
         z-index: 6;

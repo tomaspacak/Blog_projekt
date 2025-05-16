@@ -31,7 +31,7 @@
                     </div>
                     <div class="log__btns">
                         <button type="submit" class="btn btn--log">Přihlásit se</button>
-                        <a class="btn btn--var2" href="../auth/register.html">Registrace</a>
+                        <a class="btn btn--var2" href="../auth/register.php">Registrace</a>
                     </div>
                     <a class="link link--log" href="../blog/index.html">Domů</a>
                     

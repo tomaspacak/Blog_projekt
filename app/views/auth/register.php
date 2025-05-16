@@ -26,18 +26,18 @@
                     </div>
 
                     <div class="input__wrapper">
-                        <input type="text" id="username" name="username" class="form-control" placeholder="HonzaN">
-                        <label for="username" class="form-label">Jméno (nepovinné):</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Honza">
+                        <label for="name" class="form-label">Jméno (nepovinné):</label>
                     </div>
 
                     <div class="input__wrapper">
-                        <input type="text" id="username" name="username" class="form-control" placeholder="HonzaN">
-                        <label for="username" class="form-label">Přijmení (nepovinné):</label>
+                        <input type="text" id="surname" name="surname" class="form-control" placeholder="Novotný">
+                        <label for="surname" class="form-label">Přijmení (nepovinné):</label>
                     </div>
 
                     <div class="input__wrapper">
-                        <input type="text" id="username" name="username" class="form-control" placeholder="HonzaN" required>
-                        <label for="username" class="form-label">Email:</label>
+                        <input type="text" id="email" name="email" class="form-control" placeholder="HonzaN@mail.cz" required>
+                        <label for="email" class="form-label">Email:</label>
                     </div>
 
                     <div class="input__wrapper">
@@ -52,7 +52,7 @@
 
                     <div class="log__btns">
                         <button type="submit" class="btn btn--log">Registrovat se</button>
-                        <a class="btn btn--var2" href="../auth/login.html">Přihlásit</a>
+                        <a class="btn btn--var2" href="../auth/login.php">Přihlásit</a>
                     </div>
                     <a class="link link--log" href="../blog/index.html">Domů</a>
                     
@@ -82,6 +82,7 @@
             }
         });
     </script>
+    
     
 </body>
 </html>
