@@ -111,21 +111,6 @@ session_start();
                     <a class="btn" href="../auth/register.php">Registrace</a>
                 </div>
             </div>
-            <style>
-                .warning {
-                    padding: 1em;
-                    border-radius: 1em;
-                    background-color: #e8f2ff;
-                    border: 0.3em solid var(--secondaryC);
-                    margin: 0 auto;
-                    margin-bottom: 2em;
-                    max-width: 800px;
-                }
-                .warning__title {color: var(--secondaryC); font-weight: 600; font-size: 1.5em;margin-bottom: 0;}
-                .text--s {font-size: 0.8em;}
-                .warning > div {max-width: 60%;margin: 2em auto;}
-            </style>
-
         <?php endif; ?>
         </main>
 
@@ -157,7 +142,7 @@ session_start();
                         <p class="footer__title">Správa</p>
                         <div class="footer__text">
                             <a class="footer__odkaz" href="./clanek_create.html">Přidat</a>
-                            <a class="footer__odkaz" href="./funkce.html">Editace</a>
+                            <a class="footer__odkaz" href="./clanky_edit_delete.php">Editace</a>
                         </div>
                     </div>
                 </div>

@@ -49,6 +49,8 @@ a:not(.link) {
     color: var(--primalC);
 }
 
+.warning__title {color: var(--secondaryC); font-weight: 600; font-size: 1.5em;margin-bottom: 0;}
+.text--s {font-size: 0.8em;}
 
 
 

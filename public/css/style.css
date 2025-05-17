@@ -8,6 +8,7 @@
     --cardBg:#2A2A2A;
     --bg-footer:#47474D;
     --text-footer:#d7d7d7;
+    --danger: #f42c2c;
 }
 
 
@@ -74,6 +75,9 @@ body{margin: 0; background: var(--gradientBg);}
     font-size: 1em;
     padding: 0.6em 1.5em;
     border-radius: 1.2em;
+}
+.btn--danger {
+    background-color: var(--danger);
 }
 
 .card {
@@ -199,8 +203,16 @@ form {margin-top: 2em; /*text-align: right;*/}
     position: unset;
     margin-left: 1em;
 }
-.form-control:focus ~ label {top: -1rem; font-size: 14px; color: var(--primalC);}
+/*.form-control:focus ~ label {top: -1rem; font-size: 14px; color: var(--primalC);}
 .form-control:focus-visible {border: var(--primalC) 3px solid; outline: none;}
+*/
+/*.form-control:focus-visible .richText {border: var(--primalC) 3px solid !important; outline: none;}
+.form-control:focus-visible ~ .richText {border: var(--primalC) 3px solid !important; outline: none;}
+.richText-editor:focus-visible .richText {border: var(--primalC) 3px solid !important; outline: none;}
+
+.richText-editor div:active ~ .richText {border: var(--primalC) 3px solid !important; outline: none;}*/
+
+
 
 .log__btns {
     display: flex;
@@ -214,18 +226,18 @@ form {margin-top: 2em; /*text-align: right;*/}
     padding: 1em 2em;
     box-shadow: #abc9e3 1px 4px 14px 5px;
     border-radius: 1em;
+    max-width: 800px;
+    margin: 0 auto;
     margin-bottom: 2em;
 }
 .richText {
     border: 2px solid var(--secondaryC) !important;
     border-radius: 1em;
 }
-/*.form-control:focus-visible .richText {border: var(--primalC) 3px solid !important; outline: none;}
-.form-control:focus-visible ~ .richText {border: var(--primalC) 3px solid !important; outline: none;}
-.richText-editor:focus-visible .richText {border: var(--primalC) 3px solid !important; outline: none;}
-
-.richText-editor div:active ~ .richText {border: var(--primalC) 3px solid !important; outline: none;}*/
-
+/*.form-control:focus-visible ~ .richText {border: var(--primalC) 3px solid !important; outline: none;}
+.richText-editor > div:focus-visible ~ .richText {border: var(--primalC) 3px solid !important; outline: none;}
+.richText-editor > div:active ~ .richText {border: var(--primalC) 3px solid !important; outline: none;}
+*/
 .richText-toolbar {
     border-radius: 1em;
 }
@@ -234,16 +246,44 @@ form {margin-top: 2em; /*text-align: right;*/}
 }
 
 
-
 .warning {
     padding: 1em;
     border-radius: 1em;
-    background-color: #e8f2ff;
+    background-color: #e8f2ff; /* přidat do root*/
     border: 0.3em solid var(--secondaryC);
+    margin: 0 auto;
     margin-bottom: 2em;
+    max-width: 800px;
 }
 
 
+.warning > div {max-width: 60%;margin: 2em auto;}
+
+/*table*/
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    display: block;
+    margin-bottom: 3em;
+    overflow-x: auto;
+}
+  
+.table__head {
+    background-color: var(--secondaryC);
+    color: var(--bg);
+}
+
+.table th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 2px solid var(--secondaryC);
+    max-width: 15em;
+    overflow: hidden;
+}
+
+  
+  
 /*foooter*/
 footer {
     background-color: var(--bg-footer);

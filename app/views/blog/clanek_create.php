@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+/*if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../controllers/book_list.php");
+    exit();
+}
+*/
+?>
 <!DOCTYPE html>
 <html lang="cz">
 <head>
@@ -12,7 +21,7 @@
     <link rel="stylesheet" href="../../../public/css/style.css">
     <link rel="stylesheet" href="../../../public/css/richtext.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>BlogName</title>
+    <title>Přidat článek</title>
 </head>
 <body>
     <div class="page">
@@ -30,7 +39,7 @@
                     </div>
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
-                            <li class="menu__item"><a href="#">Články</a></li>
+                            <li class="menu__item"><a href="./clanky.php">Články</a></li>
                             <li class="menu__item"><a href="#">Náš příběh</a></li>
                             <?php if (isset($_SESSION['username'])): ?>
                                 <li class="menu__item">
@@ -41,7 +50,7 @@
                                 </li>
                             <?php else: ?>
                                 <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/login.html">Přihlášení</a>
+                                    <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
                                 </li>
                                 <li class="menu__item">
                                     <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
@@ -58,26 +67,21 @@
                 <h1>Přidat článek</h1>
             </div>
             <div class="create__body">
-                <form action="../../controllers/BookController.php" method="post" enctype="multipart/form-data">
+                <form action="../../controllers/ClanekController.php" method="post" enctype="multipart/form-data">
 
                     <div class="input__wrapper">
-                        <input type="text" id="nazev" name="nazev" class="form-control" placeholder="HonzaN" required>
-                        <label for="nazev" class="form-label">Název článku:</label>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="Tum tum tum" required>
+                        <label for="title" class="form-label">Název článku:</label>
                     </div>
                     
                     <div class="input__wrapper">
-                        <input type="text" id="autor" name="autor" class="form-control" placeholder="HonzaN" required>
-                        <label for="autor" class="form-label">Autor:</label>
+                        <input type="text" id="author" name="author" class="form-control" placeholder="Me" required>
+                        <label for="author" class="form-label">Autor:</label>
                     </div>
 
                     <div class="input__wrapper">
-                        <input type="text" id="autor" name="autor" class="form-control" placeholder="HonzaN" required>
-                        <label for="autor" class="form-label">kategorie?</label>
-                    </div>
-
-                    <div class="input__wrapper">
-                        <input type="text" id="popis" name="popis" class="form-control" placeholder="HonzaN" required>
-                        <label for="popis" class="form-label">Popis:</label>
+                        <input type="text" id="category" name="category" class="form-control" placeholder="HonzaN" required>
+                        <label for="category" class="form-label">kategorie?</label>
                     </div>
 
                     <div class="input__wrapper">
@@ -87,8 +91,13 @@
                     </div>
 
                     <div class="input__wrapper">
-                        <input type="text" id="zdroje" name="zdroje[]" class="form-control" placeholder="HonzaN" multiple accept="zdroj/*" required>
-                        <label for="zdroje" class="form-label">Zdroje:</label>
+                        <div id="zdroje-wrapper">
+                            <input type="text" id="sources" name="sources[]" class="form-control" placeholder="www.bla.cz" required>
+                        </div>
+                       
+                       
+                        <label for="sources" class="form-label">Zdroje:</label>
+                        <button type="button" onclick="pridatZdroj()">Přidat další zdroj</button>
                     </div>
 
                     <div class="input__wrapper">
@@ -133,8 +142,8 @@
                     <div class="footer__kategory">
                         <p class="footer__title">Správa</p>
                         <div class="footer__text">
-                            <a class="footer__odkaz" href="./index.html">Přidat</a>
-                            <a class="footer__odkaz" href="./funkce.html">Editace</a>
+                            <a class="footer__odkaz" href="./clanek_create">Přidat</a>
+                            <a class="footer__odkaz" href="./clanky_edit_delete.php">Editace</a>
                         </div>
                     </div>
                 </div>
@@ -160,6 +169,18 @@
         $(document).ready(function() {
             $('.form--text').richText();
         });
-        </script>
+    </script>
+    <script>
+        function pridatZdroj() {
+            const wrapper = document.getElementById("zdroje-wrapper");
+            const input = document.createElement("input");
+            input.type = "text";
+            input.name = "sources[]";
+            input.className = "form-control";
+            input.placeholder = "Např. https://example.com";
+            input.style.marginTop = "8px";
+            wrapper.appendChild(input);
+        }
+    </script>
 </body>
 </html>
