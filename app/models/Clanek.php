@@ -38,11 +38,17 @@ class Clanek {
         return $result;
     }
 
-    public function getAll() {
+    
+    public function getAll(int $limit = null): array {
         $sql = "SELECT * FROM clanky ORDER BY created_at DESC";
+        if ($limit !== null) {
+            
+            $sql .= " LIMIT " . (int)$limit;
+        }
+    
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        return  $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     //edit

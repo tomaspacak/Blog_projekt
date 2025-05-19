@@ -55,6 +55,17 @@
     margin-bottom: 2em;
 }
 
+.cards__wrapper--all {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+.cards__wrapper--all .card {
+    width: unset;
+    min-width: 10em;
+    max-width: 25em;
+}
+
 /* KARUSEL
 .cards__wrapper {
     display: flex;

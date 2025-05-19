@@ -52,7 +52,18 @@ a:not(.link) {
 .warning__title {color: var(--secondaryC); font-weight: 600; font-size: 1.5em;margin-bottom: 0;}
 .text--s {font-size: 0.8em;}
 
-
+.clanek__title {
+    margin-bottom: 0.3em;
+}
+.clanek__autor {
+    font-size: 0.8em;
+    font-size: 0.8em;
+    margin: 0.5em 0;
+    font-style: italic;
+}
+.clanek__zdroj {
+    font-size: 0.9em;
+}
 
 /*footer*/
 .footer__odkaz {

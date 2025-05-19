@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+require_once '../../models/Database.php';
+require_once '../../models/Clanek.php';
+
+/*if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../controllers/book_list.php");
+    exit();
+}
+*/
+
+$db = (new Database())->getConnection();
+$clanekModel = new Clanek($db);
+$clanek = $clanekModel->getById((int)$_GET['id']);
+
+if (!$clanek) {
+    echo "Článek nebyl nalezen."; /*stylizovat?*/
+    exit;
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="cz">
 <head>
@@ -10,11 +34,13 @@
     <link rel="stylesheet" href="../../../public/css/typography.css">
     <link rel="stylesheet" href="../../../public/css/layout.css">
     <link rel="stylesheet" href="../../../public/css/style.css">
-    <title>OnSite SEO pod lupou</title>
+    <link rel="stylesheet" href="../../../public/css/richtext.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Přidat článek</title>
 </head>
 <body>
     <div class="page">
-        <header class="head__wrapper">
+        <div>
             <div class="menu">
                 <div class="navbar">
                     <a href="./index.html" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
@@ -29,8 +55,7 @@
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
                             <li class="menu__item"><a href="./clanky.php">Články</a></li>
-                            <li class="menu__item"><a href="#">Služby</a></li>
-                            <li class="menu__item"><a href="#">O mně</a></li>
+                            <li class="menu__item"><a href="#">Náš příběh</a></li>
                             <?php if (isset($_SESSION['username'])): ?>
                                 <li class="menu__item">
                                     <span class="nav-link text-white">Přihlášen jako: <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></span>
@@ -50,73 +75,40 @@
                     </nav>
                 </div>
             </div>
-
-            <div class="uvod">
-                <div class="uvod__wrapper">
-                    <div class="uvod__text">
-                        <h1>OnSite SEO <span class="secondaryC">pod lupou</span></h1>
-                        <p class="uvod__popis">Vítejte na mém blogu, který je o Onsite SEO. Moje krátké představení si můžete přečíst <a class="link" href="#o">níže</a>.</p>
-                        <a href="../auth/register.html" class="btn ">Registrovat se</a>
-                    </div>
-                </div>
-                <div class="uvod__img">
-                    <img class="img--responsiv" src="../../../public/img/hp_bg1.jpg" alt="#">
-                </div>
-            </div>
-        </header>
+        </div>
 
         <main class="page__wrapper">
-            
-            <section class="cards">
-                <h2 class="title title2 cards__title text--center">Nejnovější články</h2>
-                <div class="cards__wrapper">
-                    <a class="card" href="#">
-                        <article class="card__wrapper">
-                            <h3 class="card__title">Jak na to</h3>
-                            <p class="card__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla quis diam. Vivamus luctus egestas leo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.</p>
-                        </article>
-                    </a>
-                    <a class="card" href="#">
-                        <article class="card__wrapper">
-                            <h3 class="card__title">Jak na to</h3>
-                            <p class="card__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla quis diam. Vivamus luctus egestas leo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.</p>
-                        </article>
-                    </a>
-                    <a class="card" href="#">
-                        <article class="card__wrapper">
-                            <h3 class="card__title">Jak na to</h3>
-                            <p class="card__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla quis diam. Vivamus luctus egestas leo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.</p>
-                        </article>
-                    </a>
+            <article>
+                <h1 class="clanek__title"><?= htmlspecialchars($clanek['title']) ?></h1>
+                <p class="clanek__autor">Autor: <?= htmlspecialchars($clanek['author']) ?> | Kategorie: <?= htmlspecialchars($clanek['category']) ?></p>
+                <p class="clanek__autor">Naposledy upraveno: <?= htmlspecialchars($clanek['updated_at']) ?></p>
+                <div class="clanek__content">
+                    <?= html_entity_decode($clanek['text']) ?>
+                        
+                    
+                    
                 </div>
-                <a href="#" class="btn btn--center">Všechny články</a>
+                
+                <?php
+                    $sources = json_decode($clanek['sources'], true);
+                    if (is_array($sources) && !empty($sources)) {
+                        echo '<p class="clanek__zdroje">Zdroje:</p>';
+                        echo '<ul>';
+                        foreach ($sources as $source) {
+                            echo '<li class="clanek__zdroj"> <a class="link" href="' . $source . '" target="_blank" rel="noopener noreferrer">' . $source . '</a></li>';
+                        }
 
-            </section>
+                        echo '</ul>';
+                    }
+                ?>
 
-            <section class="cards" id="o">
-                <h2 class="title">Stručné představení</h2>
-                <div class="predstaveni__uvod">
-                    <div class="predstaveni__header">
-                        <div class="predstaveni__img"><img class="img--responsiv" src="../../../public/img/prof.png" alt="Profilová fotografie autora a majite OnSite SEO pod lupou"></div>
-                        <h3>Tomáš Pacák</h3>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla quis diam. Vivamus luctus egestas leo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.</p>
-                    <div class="text--right">
-                        <a href="#" class="btn">Více o mně</a>
-                    </div>
-                </div>
-            </section>
-
-            <section class="navrhy text--center">
-                <h2>Máte zájem o spolupráci?</h2>
                 <div>
-                    <p class="navrhy__mail">OnSiteSEO@web.cz</p>
-                    <div class="log__btns log__btns--kontakt">
-                        <a class="btn" href="mailto:obchod@l3web.cz">Napsat Email</a>
-                        <a class="btn" href="#">Služby</a>
-                    </div>
+
                 </div>
-            </section>
+                
+            </article>
+            
+            
 
         </main>
 
@@ -133,7 +125,7 @@
                             </div>
                             <div class="footer__wrapper2">
                                 <a class="footer__odkaz footer__odkaz--tel" href="tel:+420777666666">+420 777 666 666</a>
-                                <a class="footer__odkaz footer__odkaz--mail" href="mailto:obchod@l3web.cz">OnSiteSEO@web.cz</a>
+                                <a class="footer__odkaz footer__odkaz--mail" href="mailto:obchod@l3web.cz">SEO@web.cz</a>
                                 <div class="footer__icons">
                                     <a href="#"><img class="footer__icon" src="../../../public/img/icon_instagram.svg" alt="Logo Instagram"></a>
                                     <a href="#"><img class="footer__icon" src="../../../public/img/footer_linkedin.svg" alt="Logo LinkedIn"></a>
@@ -147,7 +139,7 @@
                     <div class="footer__kategory">
                         <p class="footer__title">Správa</p>
                         <div class="footer__text">
-                            <a class="footer__odkaz" href="./clanek_create.php">Přidat</a>
+                            <a class="footer__odkaz" href="./clanek_create">Přidat</a>
                             <a class="footer__odkaz" href="./clanky_edit_delete.php">Editace</a>
                         </div>
                     </div>
@@ -168,5 +160,24 @@
 
     
     <script src="../../../public/js/hamburger.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../../../public/js/jquery.richtext.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.form--text').richText();
+        });
+    </script>
+    <script>
+        function pridatZdroj() {
+            const wrapper = document.getElementById("zdroje-wrapper");
+            const input = document.createElement("input");
+            input.type = "text";
+            input.name = "sources[]";
+            input.className = "form-control";
+            input.placeholder = "Např. https://example.com";
+            input.style.marginTop = "8px";
+            wrapper.appendChild(input);
+        }
+    </script>
 </body>
 </html>

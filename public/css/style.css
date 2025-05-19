@@ -282,6 +282,9 @@ form {margin-top: 2em; /*text-align: right;*/}
     overflow: hidden;
 }
 
+.clanek__content {
+    margin: 1.5em 0;
+}
   
   
 /*foooter*/

@@ -33,8 +33,8 @@
         );
 
         if ($success) {
-            /*header("Location: ../views/books/books_edit_delete.php");
-            exit();*/
+            header("Location: ../views/blog/clanky_edit_delete.php");
+            exit();
         } else {
             echo "Chyba při aktualizaci knihy.";
         }
