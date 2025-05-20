@@ -1,11 +1,20 @@
 <?php
 session_start();
 
-/*if (!isset($_SESSION['user_id'])) {
-    header("Location: ../../controllers/book_list.php");
-    exit();
-}
-*/
+// Kontrola, jestli je uživatel admin
+        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+    
+        if (!isset($_SESSION['user_id'])) {
+            
+            header("Location: ./index.php");
+            die("Uživatel není přihlášen.");
+        }
+
+        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+        if (!$isAdmin) {
+            header("Location: ./index.php");
+            exit();
+        }
 ?>
 <!DOCTYPE html>
 <html lang="cz">
@@ -28,7 +37,7 @@ session_start();
         <div>
             <div class="menu">
                 <div class="navbar">
-                    <a href="./index.html" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
+                    <a href="./index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
                     
                     <div class="hamburger-row">
                         <div href="javascript:void(0)" class="hamburger hamburger-btn hamburger-zone">

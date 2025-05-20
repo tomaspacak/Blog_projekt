@@ -36,8 +36,8 @@
                     </div>
 
                     <div class="input__wrapper">
-                        <input type="text" id="email" name="email" class="form-control" placeholder="HonzaN@mail.cz" required>
-                        <label for="email" class="form-label">Email:</label>
+                        <input type="text" id="email" name="email" class="form-control" placeholder="HonzaN@mail.cz">
+                        <label for="email" class="form-label">Email (nepovinné):</label>
                     </div>
 
                     <div class="input__wrapper">

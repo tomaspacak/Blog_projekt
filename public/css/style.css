@@ -203,9 +203,9 @@ form {margin-top: 2em; /*text-align: right;*/}
     position: unset;
     margin-left: 1em;
 }
-/*.form-control:focus ~ label {top: -1rem; font-size: 14px; color: var(--primalC);}
+.form-control:focus ~ label {top: -1rem; font-size: 14px; color: var(--primalC);}
 .form-control:focus-visible {border: var(--primalC) 3px solid; outline: none;}
-*/
+
 /*.form-control:focus-visible .richText {border: var(--primalC) 3px solid !important; outline: none;}
 .form-control:focus-visible ~ .richText {border: var(--primalC) 3px solid !important; outline: none;}
 .richText-editor:focus-visible .richText {border: var(--primalC) 3px solid !important; outline: none;}
@@ -285,7 +285,26 @@ form {margin-top: 2em; /*text-align: right;*/}
 .clanek__content {
     margin: 1.5em 0;
 }
-  
+
+
+.komentare_vypis {
+    background-color: var(--btnH);
+    padding: 1em;
+    border-radius: 1em;
+}
+.komentar {
+    padding: 1em;
+    border-radius: 1em;
+    background-color: var(--bg);
+    min-width: 10em;
+    max-width: 20em;
+    margin-bottom: 1em;
+}
+.komentare_pridat {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
   
 /*foooter*/
 footer {

@@ -24,7 +24,7 @@
             $_SESSION['role'] = $user['role'];
 
             /*header("Location: ../controllers/book_list.php");*/
-            header("Location: ../views/blog/index.html");
+            header("Location: ../views/blog/index.php");
             
             exit();
         } else {

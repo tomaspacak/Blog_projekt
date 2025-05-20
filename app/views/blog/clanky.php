@@ -35,7 +35,7 @@ $clanky = $clanekModel->getAll();
         <header class="head__wrapper">
             <div class="menu">
                 <div class="navbar">
-                    <a href="./index.html" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
+                    <a href="./index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
                     
                     <div class="hamburger-row">
                         <div href="javascript:void(0)" class="hamburger hamburger-btn hamburger-zone">

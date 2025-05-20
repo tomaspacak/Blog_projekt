@@ -15,12 +15,21 @@ class ClanekController {
         $this->clanekModel = new Clanek($this->db);
     }
 
-    public function createBook() {
-        // Kontrola, jestli je uživatel přihlášen
+    public function createClanek() {
+        // Kontrola, jestli je uživatel admin
+        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+    
         if (!isset($_SESSION['user_id'])) {
-            /*header("Location: ../controllers/book_list.php"); //fwfnenfenfj*/
+            header("Location: ../views/blog/index.php");
+            die("Uživatel není přihlášen.");
+        }
+
+        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+        if (!$isAdmin) {
+            header("Location: ../views/blog/index.php");
             exit();
         }
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!isset($_SESSION['user_id'])) {
                 die("Uživatel není přihlášen.");
@@ -31,12 +40,6 @@ class ClanekController {
             $author = htmlspecialchars($_POST['author']);
             $category = htmlspecialchars($_POST['category']);
             $text = htmlspecialchars($_POST['text']);
-            /*$subcategory = !empty($_POST['subcategory']) ? htmlspecialchars($_POST['subcategory']) : null;
-            $year = intval($_POST['year']);
-            $price = floatval($_POST['price']);
-            $isbn = htmlspecialchars($_POST['isbn']);
-            $description = htmlspecialchars($_POST['description']);
-            $link = htmlspecialchars($_POST['link']);*/
 
 
             // Získání ID přihlášeného uživatele
@@ -61,17 +64,13 @@ class ClanekController {
             $sourcesClean = array_map('trim', $sourcesRaw);
             $sourcesClean = array_filter($sourcesClean); // odstraní prázdné
             $sourcesJson = json_encode($sourcesClean);
-
-            
-
-
             
             if ($this->clanekModel->create(
                 $title, $author, $category, $text, $sourcesJson,
                 $imagePaths, $user_id
             )) {
-                /*header("Location: ../controllers/book_list.php");
-                exit();*/
+                header("Location: ../views/blog/clanky_edit_delete.php");
+                exit();
             } else {
                 echo "Chyba při ukládání knihy.";
             }  
@@ -85,11 +84,17 @@ class ClanekController {
     }*/
 }
 
-// Volání metody při odeslání formuláře
+
 $controller = new ClanekController();
-//$controller->createBook();
+//$controller->createClanek();
 
 // Zavolá pouze pokud šlo o POST request (odeslání formuláře)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $controller->createBook();
+    $controller->createClanek();
 }
+
+$commentModel = new Comment($this->db);
+$komentare = $commentModel->getByClanekId($clanek_id); // $clanek_id by mělo být id daného článku
+
+// Poté ve view předáš proměnnou $komentare
+include '../views/clanky/clanek_detail.php';

@@ -112,6 +112,11 @@
 .log__btns {margin: 3em 0;}
 
 
+.komentare_vypis {
+    max-height: 20em;
+    overflow-y: scroll;
+}
+
 
 
 @media (min-width: 538px) {
@@ -137,7 +142,11 @@
     .predstaveni__img {
         flex-grow: 1;
     }*/
+
     
+    .form-control--komentar {
+        max-width: 40em;
+    }
     
 }
 
@@ -181,6 +190,12 @@
         width: 100%;
         left: 0;
         height: 100%;
+    }
+
+
+    .komentare_wrapper {
+        max-width: 90%;
+        margin: 0 auto;
     }
 
 }

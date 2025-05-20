@@ -1,11 +1,19 @@
 <?php
 session_start();
+// Kontrola, jestli je uživatel admin
+        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+    
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: ./index.php");
+            die("Uživatel není přihlášen.");
+        }
 
-/*if (!isset($_SESSION['user_id'])) {
-    header("Location: ../../controllers/clanek_list.php");
-    exit();
-}
-*/
+        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+        if (!$isAdmin) {
+            header("Location: ./index.php");
+            exit();
+        }
+
 require_once '../../models/Database.php';
 require_once '../../models/Clanek.php';
 
@@ -49,7 +57,7 @@ if (isset($_GET['edit'])) {
         <div>
             <div class="menu">
                 <div class="navbar">
-                    <a href="./index.html" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
+                    <a href="./index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
                     
                     <div class="hamburger-row">
                         <div href="javascript:void(0)" class="hamburger hamburger-btn hamburger-zone">
@@ -116,9 +124,9 @@ if (isset($_GET['edit'])) {
                             <?php
                                 $currentUserId = $_SESSION['user_id'] ?? null;
                                 $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
-                                $ownsBook = $currentUserId == $clanek['user_id'];
+    
 
-                                if ($isAdmin || $ownsBook):
+                                if ($isAdmin):
                             ?>
                                 <a href="?edit=<?= $clanek['id'] ?>" class="btn">Upravit</a>
                                 <a href="../../controllers/clanek_delete.php?id=<?= $clanek['id'] ?>" class="btn btn--danger" onclick="return confirm('Opravdu chcete smazat tuto knihu?');">Smazat</a>

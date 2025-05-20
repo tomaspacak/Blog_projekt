@@ -83,4 +83,11 @@ class Clanek {
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':id' => $id]);
     }
+
+    public function getLastFreeClanky($limit = 3) {
+    $stmt = $this->db->prepare("SELECT id FROM clanky ORDER BY created_at DESC LIMIT :limit");
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
 }

@@ -3,19 +3,27 @@ session_start();
 
 require_once '../../models/Database.php';
 require_once '../../models/Clanek.php';
+require_once '../../models/Comment.php';
 
-/*if (!isset($_SESSION['user_id'])) {
-    header("Location: ../../controllers/book_list.php");
-    exit();
-}
-*/
 
+//inicializace
 $db = (new Database())->getConnection();
 $clanekModel = new Clanek($db);
 $clanek = $clanekModel->getById((int)$_GET['id']);
+$commentModel = new Comment($db);
+$komentare = $commentModel->getByClanekId($clanek['id']);
+
+// kontrola přístupu
+$lastFreeIds = $clanekModel->getLastFreeClanky();
+$isFree = in_array($clanek['id'], $lastFreeIds);
+if (!$isFree && !isset($_SESSION['user_id'])) {
+    echo "Tento článek je dostupný pouze pro přihlášené uživatele.";
+    exit;
+}
+
 
 if (!$clanek) {
-    echo "Článek nebyl nalezen."; /*stylizovat?*/
+    echo "Článek nebyl nalezen."; 
     exit;
 }
 
@@ -43,7 +51,7 @@ if (!$clanek) {
         <div>
             <div class="menu">
                 <div class="navbar">
-                    <a href="./index.html" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
+                    <a href="./index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
                     
                     <div class="hamburger-row">
                         <div href="javascript:void(0)" class="hamburger hamburger-btn hamburger-zone">
@@ -107,6 +115,39 @@ if (!$clanek) {
                 </div>
                 
             </article>
+            <section>
+                <h2>Komentáře</h2>
+                <div class="komentare_wrapper">
+                    <div class="komentare_vypis">
+                        <?php if (!empty($komentare)): ?>
+                            
+                                <?php foreach ($komentare as $komentar): ?>
+                                    <div class="komentar" >
+                                        <p class="komentar__autor"><?= htmlspecialchars($komentar['username']) ?></p>
+                                        <p class="komentar__date"><?= htmlspecialchars($komentar['created_at']) ?></p>
+                                        <p class="komentar__text"><?= nl2br(htmlspecialchars($komentar['text'])) ?></p>
+                                        
+                                    </div>
+                                <?php endforeach; ?>
+                            
+                        <?php else: ?>
+                            <p class="message">Zatím žádné komentáře.</p>
+                        <?php endif; ?>
+
+                    </div>
+                    <div>
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                            <form class="komentare_pridat" method="post"  action="../../controllers/CommentController.php">
+                                <textarea class="form-control form-control--komentar" name="text" placeholder="Napsat komentář" required></textarea>
+                                <input type="hidden" name="clanek_id" value="<?= $clanek['id'] ?>">
+                                <button class="btn" type="submit">Odeslat komentář</button>
+                            </form>
+                        <?php else: ?>
+                            <p class="warning"><a class="link" href="../auth/login.php">Přihlas se</a> pro přidání komentáře, nemáš účet? <a class="link" href="../auth/register.php">Registruj se</a></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </section>
             
             
 
@@ -139,7 +180,7 @@ if (!$clanek) {
                     <div class="footer__kategory">
                         <p class="footer__title">Správa</p>
                         <div class="footer__text">
-                            <a class="footer__odkaz" href="./clanek_create">Přidat</a>
+                            <a class="footer__odkaz" href="./clanek_create.php">Přidat</a>
                             <a class="footer__odkaz" href="./clanky_edit_delete.php">Editace</a>
                         </div>
                     </div>
@@ -167,17 +208,6 @@ if (!$clanek) {
             $('.form--text').richText();
         });
     </script>
-    <script>
-        function pridatZdroj() {
-            const wrapper = document.getElementById("zdroje-wrapper");
-            const input = document.createElement("input");
-            input.type = "text";
-            input.name = "sources[]";
-            input.className = "form-control";
-            input.placeholder = "Např. https://example.com";
-            input.style.marginTop = "8px";
-            wrapper.appendChild(input);
-        }
-    </script>
+   
 </body>
 </html>
