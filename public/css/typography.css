@@ -16,6 +16,7 @@ html{
     font-size: 16px;
     color: var(--text);
 }
+
 h1 {
     font-size: clamp(1.6rem, 4.5vw, 3rem);
     color: var(--primalC);
@@ -29,13 +30,15 @@ h3, .log__title {
 h2, h3, h4, .log__title {
     color: var(--secondaryC);
 }
+.h1--admin {margin-bottom: 0.2em;}
 .log__title {position: relative;}
 
 .text--center {text-align: center;}
+
 .secondaryC {color: var(--secondaryC);}
+
 a:not(.link) {
     text-decoration: none;
-
 }
 
 .link {color: var(--secondaryC);}
@@ -76,6 +79,14 @@ a:not(.link) {
     margin-top: 0.3em;
 }
 .komentar__text {margin-bottom: 0;}
+
+.adminNav__link {
+    color: var(--text);
+}
+.adminNav__link:hover {
+    color: var(--primalC);
+    
+}
 
 /*footer*/
 .footer__odkaz {

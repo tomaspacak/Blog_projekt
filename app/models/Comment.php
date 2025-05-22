@@ -20,13 +20,23 @@ class Comment {
 
 
     public function getByClanekId($clanek_id) {
-    $sql = "SELECT c.text, c.created_at, u.username 
-            FROM comments c
-            JOIN users u ON c.user_id = u.id
-            WHERE c.clanek_id = :clanek_id
-            ORDER BY c.created_at DESC";
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute([':clanek_id' => $clanek_id]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $sql = "SELECT c.text, c.created_at, u.username 
+                FROM comments c
+                JOIN users u ON c.user_id = u.id
+                WHERE c.clanek_id = :clanek_id
+                ORDER BY c.created_at DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':clanek_id' => $clanek_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAll() {
+        $sql = "SELECT c.id, c.clanek_id, c.text, c.created_at, u.username 
+                FROM comments c
+                JOIN users u ON c.user_id = u.id
+                ORDER BY c.id DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

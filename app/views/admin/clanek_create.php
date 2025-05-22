@@ -1,20 +1,18 @@
 <?php
 session_start();
 
-// Kontrola, jestli je uživatel admin
-        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
-    
-        if (!isset($_SESSION['user_id'])) {
-            
-            header("Location: ./index.php");
-            die("Uživatel není přihlášen.");
-        }
+// Kontrola, jestli je uživatel admin 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ./index.php");
+    die("Uživatel není přihlášen.");
+}
 
-        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
-        if (!$isAdmin) {
-            header("Location: ./index.php");
-            exit();
-        }
+$isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+if (!$isAdmin) {
+    header("Location: ./index.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="cz">
@@ -37,7 +35,7 @@ session_start();
         <div>
             <div class="menu">
                 <div class="navbar">
-                    <a href="./index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
+                    <a href="../blog/index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
                     
                     <div class="hamburger-row">
                         <div href="javascript:void(0)" class="hamburger hamburger-btn hamburger-zone">
@@ -48,7 +46,7 @@ session_start();
                     </div>
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
-                            <li class="menu__item"><a href="./clanky.php">Články</a></li>
+                            <li class="menu__item"><a href="../blog/clanky.php">Články</a></li>
                             <li class="menu__item"><a href="#">Náš příběh</a></li>
                             <?php if (isset($_SESSION['username'])): ?>
                                 <li class="menu__item">
@@ -73,7 +71,13 @@ session_start();
 
         <main class="page__wrapper">
             <div>
-                <h1>Přidat článek</h1>
+                <h1 class="h1--admin">Přidat článek</h1>
+                <div class="adminNav">
+                    <a class="adminNav__link" href="./clanek_create.php">Přidat článek</a>
+                    <a class="adminNav__link" href="./clanky_edit_delete.php">Editovat článek</a>
+                    <a class="adminNav__link" href="./users_edit_delete.php">Uživatelé</a>
+                    <a class="adminNav__link" href="./komentare_delete.php">Komentáře</a>
+                </div>
             </div>
             <div class="create__body">
                 <form action="../../controllers/ClanekController.php" method="post" enctype="multipart/form-data">

@@ -24,27 +24,9 @@ body{margin: 0; background: var(--gradientBg);}
 .img--responsiv {width: 100%;}
 
 
+/*KOMPONENTY*/
 
-
-/*.uvod {
-    display: flex;
-    align-items: stretch;
-    background-image: url(../img/hp_bg1.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    min-height: 20em;
-    max-height: 40em;
-}
-.uvod__wrapper {
-    background-color: var(--bg);
-    width: fit-content;
-}*/
-
-
-
-
-
-/*komponenty*/
+/*buttons*/
 .btn {
     display: inline-block;
     background-color: var(--primalC);
@@ -80,6 +62,8 @@ body{margin: 0; background: var(--gradientBg);}
     background-color: var(--danger);
 }
 
+
+/*karta clanku*/
 .card {
     position: relative;
     display: inline-block;
@@ -125,6 +109,8 @@ body{margin: 0; background: var(--gradientBg);}
     box-shadow: 0px 0px 20px var(--primalC);
     transition: .5s;
 }
+
+
 
 .predstaveni__uvod {
     padding: 1em;
@@ -245,7 +231,7 @@ form {margin-top: 2em; /*text-align: right;*/}
     margin-bottom: 0;
 }
 
-
+/*warning*/
 .warning {
     padding: 1em;
     border-radius: 1em;
@@ -255,9 +241,23 @@ form {margin-top: 2em; /*text-align: right;*/}
     margin-bottom: 2em;
     max-width: 800px;
 }
-
-
 .warning > div {max-width: 60%;margin: 2em auto;}
+
+.adminNav {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    margin-bottom: 2em;
+}
+
+.expandText {
+    cursor: pointer;
+    color: var(--secondaryC);
+}
+.expandText:hover {
+    cursor: pointer;
+    color: var(--primalC);
+}
 
 /*table*/
 .table {

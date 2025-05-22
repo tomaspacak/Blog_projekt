@@ -1,39 +1,23 @@
 <?php
 session_start();
-// Kontrola, jestli je uživatel admin
-        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
-    
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: ./index.php");
-            die("Uživatel není přihlášen.");
-        }
-
-        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
-        if (!$isAdmin) {
-            header("Location: ./index.php");
-            exit();
-        }
-
-require_once '../../models/Database.php';
-require_once '../../models/Clanek.php';
-
-
-$db = (new Database())->getConnection();
-$clanekModel = new Clanek($db);
-$clanky = $clanekModel->getAll();
-
-$editMode = false;
-$clanekToEdit = null;
-
-if (isset($_GET['edit'])) {
-    $editId = (int)$_GET['edit'];
-    $clanekToEdit = $clanekModel->getById($editId);
-    if ($clanekToEdit) {
-        $editMode = true;
-    }
+// Kontrola, jestli je uživatel admin 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ./index.php");
+    die("Uživatel není přihlášen.");
 }
 
+$isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+if (!$isAdmin) {
+    header("Location: ./index.php");
+    exit();
+}
 
+require_once '../../models/Database.php';
+require_once '../../models/Comment.php';
+
+$db = (new Database())->getConnection();
+$commentModel = new Comment($db);
+$comments = $commentModel->getAll();
 
 ?>
 <!DOCTYPE html>
@@ -50,14 +34,14 @@ if (isset($_GET['edit'])) {
     <link rel="stylesheet" href="../../../public/css/style.css">
     <link rel="stylesheet" href="../../../public/css/richtext.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Editace</title>
+    <title>Komentáře</title>
 </head>
 <body>
     <div class="page">
         <div>
             <div class="menu">
                 <div class="navbar">
-                    <a href="./index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
+                    <a href="../blog/index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
                     
                     <div class="hamburger-row">
                         <div href="javascript:void(0)" class="hamburger hamburger-btn hamburger-zone">
@@ -68,7 +52,7 @@ if (isset($_GET['edit'])) {
                     </div>
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
-                            <li class="menu__item"><a href="./clanky.php">Články</a></li>
+                            <li class="menu__item"><a href="../blog/clanky.php">Články</a></li>
                             <li class="menu__item"><a href="#">Náš příběh</a></li>
                             <?php if (isset($_SESSION['username'])): ?>
                                 <li class="menu__item">
@@ -93,104 +77,51 @@ if (isset($_GET['edit'])) {
 
         <main class="page__wrapper">
             <div>
-                <h1>Správa článků</h1>
+                <h1 class="h1--admin">Správa uživatelů</h1>
+                <div class="adminNav">
+                    <a class="adminNav__link" href="./clanek_create.php">Přidat článek</a>
+                    <a class="adminNav__link" href="./clanky_edit_delete.php">Editovat článek</a>
+                    <a class="adminNav__link" href="./users_edit_delete.php">Uživatelé</a>
+                    <a class="adminNav__link" href="./komentare_delete.php">Komentáře</a>
+                </div>
             </div>
+
             
-            <?php if (!empty($clanky)): ?>
+            <?php if (!empty($comments)): ?>
             <table class="table">
                 <thead class="table__head">
                     <tr class="table__row">
                         <th>ID</th>
-                        <th>Název</th>
-                        <th>Autor</th>
-                        <th>Kategorie</th>
-                        <th>Text</th>
-                        <th>Zdroje</th>
+                        <th>ID článku</th>
+                        <th>Username</th>
+                        <th>Komentář</th>
                         <th>Akce</th>
-                        <th>user ID</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($clanky as $clanek): ?>
+                <?php foreach ($comments as $comment): ?>
                     <tr class="table__row">
-                        <td><?= htmlspecialchars($clanek['id']) ?></td>
-                        <td><?= htmlspecialchars($clanek['title']) ?></td>
-                        <td><?= htmlspecialchars($clanek['author']) ?></td>
-                        <td><?= htmlspecialchars($clanek['category']) ?></td>
-                        <td><?= htmlspecialchars($clanek['text']) ?></td>
-                        <td><?= htmlspecialchars($clanek['sources']) ?></td>
-                        
+                        <td><?= htmlspecialchars($comment['id']) ?></td>
+                        <td><?= htmlspecialchars($comment['clanek_id']) ?></td>
+                        <td><?= htmlspecialchars($comment['username']) ?></td>
                         <td>
-                            <?php
-                                $currentUserId = $_SESSION['user_id'] ?? null;
-                                $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
-    
-
-                                if ($isAdmin):
-                            ?>
-                                <a href="?edit=<?= $clanek['id'] ?>" class="btn">Upravit</a>
-                                <a href="../../controllers/clanek_delete.php?id=<?= $clanek['id'] ?>" class="btn btn--danger" onclick="return confirm('Opravdu chcete smazat tuto knihu?');">Smazat</a>
-                            <?php else: ?>
-                                <span class="text-muted">Bez oprávnění</span>
+                            <span><?= htmlspecialchars(mb_substr($comment['text'], 0, 50)) ?></span>
+                            <?php if (mb_strlen($comment['text']) > 50): ?>
+                                <span class="expandText" onclick="alert('<?= htmlspecialchars($comment['text'], ENT_QUOTES) ?>')">(Celý text)</span>
                             <?php endif; ?>
                         </td>
-
-                        <td><?= htmlspecialchars($clanek['user_id']) ?></td>
+                        <td>
+                            <a href="../../controllers/Comment_delete.php?id=<?= $comment['id'] ?>" class="btn btn--danger" onclick="return confirm('Opravdu smazat tento komentář?');">Smazat</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
         
             <?php else: ?>
-                <div class="alert alert-info">Žádná kniha nebyla nalezena.</div>
+                <p class="warning">Žádné komentáře nebyly nalezeny.</p>
             <?php endif; ?>
         
-            <?php if ($editMode): ?>
-                
-                    
-            <div>
-                
-                <div class="create__body">
-                    <div>
-                        <h2>Upravit článek: <?= htmlspecialchars($clanekToEdit['title']) ?></h2>
-                    </div>
-                    <form action="../../controllers/clanek_update.php" method="post">
-                        <input type="hidden" name="id" value="<?= $clanekToEdit['id'] ?>">
-                        <div class="input__wrapper">
-                            <input type="text" class="form-control" value="<?= $clanekToEdit['id'] ?>" disabled>
-                            <label class="form-label">ID článku:</label>
-                        </div>
-                        <div class="input__wrapper">
-                            <input type="text" id="title" name="title" class="form-control" required value="<?= htmlspecialchars($clanekToEdit['title']) ?>">
-                            <label for="title" class="form-label">Název článku:</label>
-                        </div>
-
-                        <div class="input__wrapper">
-                            <input type="text" id="author" name="author" class="form-control" required value="<?= htmlspecialchars($clanekToEdit['author']) ?>">
-                            <label for="author" class="form-label">Autor:</label>
-                        </div>
-
-                        <div class="input__wrapper">
-                            <input type="text" id="category" name="category" class="form-control" value="<?= htmlspecialchars($clanekToEdit['category']) ?>">
-                            <label for="category" class="form-label">Kategorie:</label>
-                        </div>
-
-                        
-
-                        <div class="input__wrapper">
-                            <label for="text" class="form-label form-label--text">Text:</label>
-                            <textarea name="text" id="text" class="form-control form--text"> <?= $clanekToEdit['text'] ?> </textarea>
-                        </div>
-
-                        
-
-                        <button type="submit" class="btn btn-success w-100">Uložit změny</button>
-                    </form>
-                </div>
-            </div>
-                    
-            <?php endif; ?>
-
         </main>
 
         <footer>
