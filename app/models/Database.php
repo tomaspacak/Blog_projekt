@@ -1,21 +1,22 @@
 <?php
 
+//pripojeni k databazi
 class Database {
-    private $host = "localhost";
+    private $host = "localhost"; //adresa serveru databaze
     private $db_name = "wa_projekt";
-    private $username = "root";
+    private $username = "root"; //pripojeni jako admin
     private $password = "";
     public $conn;
 
     public function getConnection() {
-        
-        // Odpojí připojení k databázi tím, že změní proměnnou $this->conn na null.
-        // Ukončí existující PDO objekt, což může být užitečné pro správu paměti.
+
+        // zruseni stareho pripojeni
         $this->conn = null;
         
         try {
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             
+            //reakce na chyby
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
             // Výpis informace o úspěšném připojení (pro testování)
@@ -27,8 +28,3 @@ class Database {
         return $this->conn;
     }
 }
-
-// Pro otestování připojení stačí tento soubor spustit
-// Můžete tento kód zakomentovat po ověření
-//$database = new Database();
-//$database->getConnection();

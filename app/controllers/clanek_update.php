@@ -6,7 +6,6 @@
 
     // Ověření, že uživatel je přihlášen
     if (!isset($_SESSION['user_id'])) {
-        http_response_code(403);
         die('Nepřihlášený uživatel.');
     }
 
@@ -15,6 +14,17 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = (int)$_POST['id'];
+
+        $db = (new Database())->getConnection();
+        $clanekModel = new Clanek($db);
+        $clanek = $clanekModel->getById($id); // Nacteni clanku, ziskani ID
+
+        // Kontrola oprávnění
+        $ownsClanek = $currentUserId == $clanek['user_id'];
+        if (!$isAdmin && !$ownsClanek) {
+            die("Nemáte oprávnění upravovat tento článek.");
+        }
+
         $title = htmlspecialchars($_POST['title']);
         $author = htmlspecialchars($_POST['author']);
         $category = htmlspecialchars($_POST['category']);
@@ -23,7 +33,7 @@
         $db = (new Database())->getConnection();
         $clanekModel = new Clanek($db);
 
-        //lets go
+        //aktualizace
         $success = $clanekModel->update(
             $id,
             $title,
@@ -33,10 +43,10 @@
         );
 
         if ($success) {
-            header("Location: ../views/blog/clanky_edit_delete.php");
+            header("Location: ../views/admin/clanky_edit_delete.php");
             exit();
         } else {
-            echo "Chyba při aktualizaci knihy.";
+            echo "Chyba při aktualizaci článku.";
         }
     } else {
         echo "Neplatný požadavek.";

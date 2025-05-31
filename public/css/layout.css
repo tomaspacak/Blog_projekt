@@ -58,6 +58,7 @@
 .cards__wrapper--all {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-items: center;
     gap: 2rem;
 }
 .cards__wrapper--all .card {
@@ -66,42 +67,6 @@
     max-width: 25em;
 }
 
-/* KARUSEL
-.cards__wrapper {
-    display: flex;
-    gap: 1em;
-    overflow-x: scroll;
-    white-space: nowrap;
-    margin: 0 1rem 1rem 1rem;
-}
-.card {
-    margin: 1em;
-}
-    */
-/*.predstaveni__uvod {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
-}
-.predstaveni__img {max-width: 12em;}*/
-.predstaveni__header {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    padding-bottom: 0.5em;
-    border-bottom: solid 2px blue;
-}
-.predstaveni__img {
-    max-width: 4em;
-    border-radius: 2em;
-    overflow: hidden;
-    padding: 0.25em;
-    background: var(--gradientBg);
-}
-.predstaveni__img img {
-    border-radius: 1.85em;
-}
 
 
 .log__wrapper {
@@ -116,6 +81,29 @@
     max-height: 20em;
     overflow-y: scroll;
 }
+.komentare {margin-top: 4em;}
+
+.sluzby {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3em;
+}
+.sluzba {
+    display: flex;
+    flex-direction: column;
+    max-width: 20em;
+    min-width: 15em;
+    box-shadow: 0px 0px 15px var(--btnH);
+    border-radius: 1em;
+    overflow: hidden;
+}
+.sluzba__text {
+    padding: 1em;
+}
+
 
 
 
@@ -133,20 +121,12 @@
     }
     .uvod__popis {margin-right: 2em;}
 
-   /* .predstaveni__uvod {
-        flex-direction: row;
-    }
-    .predstaveni__uvod p {
-        flex-grow: 2;
-    }
-    .predstaveni__img {
-        flex-grow: 1;
-    }*/
-
     
     .form-control--komentar {
         max-width: 40em;
     }
+
+    .clanek__content {margin-right: 2em;}
     
 }
 
@@ -162,7 +142,6 @@
         overflow: hidden;
     }
     .uvod__wrapper {
-        /*flex-grow: 1;*/
         width: 70%;
         z-index: 4;
         background: linear-gradient(58deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0) 100%);
@@ -192,10 +171,35 @@
         height: 100%;
     }
 
+    .clanek__content {max-width: 85%;}
+
+    .komentare {margin-top: 6em;}
+
 
     .komentare_wrapper {
         max-width: 90%;
         margin: 0 auto;
+    }
+
+    .sluzby {gap: 2.5em;}
+
+    .sluzba {
+        flex-direction: row;
+        max-width: unset;
+        gap: 1em;
+        max-width: 1000px;
+    }
+    .sluzba__text {
+        flex-grow: 2;
+        flex-basis: 600px;
+    }
+    .sluzba__img {
+        flex-grow: 1;
+        flex-basis: 200px;
+        min-width: 300px;
+    }
+    .sluzba__img img{
+        height: 100%;
     }
 
 }

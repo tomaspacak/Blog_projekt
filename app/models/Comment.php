@@ -3,10 +3,12 @@
 class Comment {
     private $db;
 
+    //__construct() automaticky se spusti pri vytvoreni objektu
     public function __construct($db) {
         $this->db = $db;
     }
 
+    //vytvoreni komentare, ulozeni do databaze
     public function create($user_id, $clanek_id, $text) {
         $sql = "INSERT INTO comments (user_id, clanek_id, text) 
                 VALUES (:user_id, :clanek_id, :text)";
@@ -18,7 +20,7 @@ class Comment {
         ]);
     }
 
-
+    //komentare ke konkretnimu clanku
     public function getByClanekId($clanek_id) {
         $sql = "SELECT c.text, c.created_at, u.username 
                 FROM comments c
@@ -30,6 +32,7 @@ class Comment {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    //vsechny komentare
     public function getAll() {
         $sql = "SELECT c.id, c.clanek_id, c.text, c.created_at, u.username 
                 FROM comments c

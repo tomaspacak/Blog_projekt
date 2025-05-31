@@ -16,6 +16,7 @@ $clanky = $clanekModel->getAll(3);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vítejte na mém blogu, kde se věnuji On-site SEO – optimalizaci webu, která začíná přímo na stránkách. Praktické tipy, srozumitelná vysvětlení a ukázky, které vám pomohou zlepšit viditelnost vašeho webu.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +31,7 @@ $clanky = $clanekModel->getAll(3);
         <header class="head__wrapper">
             <div class="menu">
                 <div class="navbar">
-                    <a href="./index.html" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
+                    <a href="./index.php" class="navbar__logo"><img class="img--responsiv" src="../../../public/img/logo.svg" alt="logo"></a>
                     
                     <div class="hamburger-row">
                         <div href="javascript:void(0)" class="hamburger hamburger-btn hamburger-zone">
@@ -41,23 +42,38 @@ $clanky = $clanekModel->getAll(3);
                     </div>
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
-                            <li class="menu__item"><a href="./clanky.php">Články</a></li>
-                            <li class="menu__item"><a href="#">Služby</a></li>
-                            <li class="menu__item"><a href="#">O mně</a></li>
+                            <div class="menuLeft menuRight">
+                                <li class="menu__item"><a href="./clanky.php">Články</a></li>
+                                <li class="menu__item"><a href="../admin/clanek_create.php">Správa</a></li>
+                                <li class="menu__item"><a href="./sluzby.php">Služby</a></li>
+                            </div>
+                            
+                        
                             <?php if (isset($_SESSION['username'])): ?>
-                                <li class="menu__item">
-                                    <span class="nav-link text-white">Přihlášen jako: <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></span>
-                                </li>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../controllers/logout.php">Odhlásit se</a>
-                                </li>
+                                <div class="menuRight">
+                                    <div class="line"></div>
+                                    <li class="menu__item">
+                                        <div class="userLoged">
+                                            <div class="iconContainer"><img class="img--responsiv" src="../../../public/img/icon_user.svg" alt="ikona uzživatele"></div>
+                                            <p class="userLoged__text"><strong><?= htmlspecialchars($_SESSION['username']) ?></strong></p>
+                                        </div>
+                                    </li>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../controllers/logout.php">Odhlásit se</a>
+                                    </li>
+                                </div>
+                                
                             <?php else: ?>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
-                                </li>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
-                                </li>
+                                <div class="menuRight">
+                                    <div class="line"></div>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
+                                    </li>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
+                                    </li>
+                                </div>
+                                
                             <?php endif; ?>
                         </menu>
                     </nav>
@@ -68,12 +84,12 @@ $clanky = $clanekModel->getAll(3);
                 <div class="uvod__wrapper">
                     <div class="uvod__text">
                         <h1>OnSite SEO <span class="secondaryC">pod lupou</span></h1>
-                        <p class="uvod__popis">Vítejte na mém blogu, který je o Onsite SEO. Moje krátké představení si můžete přečíst <a class="link" href="#o">níže</a>.</p>
-                        <a href="../auth/register.html" class="btn ">Registrovat se</a>
+                        <p class="uvod__popis">Vítejte na mém blogu, kde se věnuji On-site SEO – optimalizaci webu, která začíná přímo na stránkách. Praktické tipy, srozumitelná vysvětlení a ukázky, které vám pomohou zlepšit viditelnost vašeho webu.</p>
+                        <a href="../auth/register.php" class="btn ">Registrovat se</a>
                     </div>
                 </div>
                 <div class="uvod__img">
-                    <img class="img--responsiv" src="../../../public/img/hp_bg1.jpg" alt="#">
+                    <img class="img--responsiv" src="../../../public/img/hp_bg1.webp" alt="Ilustrace na téma On site SEO">
                 </div>
             </div>
         </header>
@@ -88,7 +104,7 @@ $clanky = $clanekModel->getAll(3);
                                 <article class="card__wrapper">
                                     <h3 class="card__title"><?= htmlspecialchars($clanek['title']) ?></h3>
                                     <p class="card__text">
-                                        <?= htmlspecialchars(mb_strimwidth(strip_tags($clanek['text']), 0, 200, '...')) ?>
+                                        <?= mb_strimwidth(strip_tags(html_entity_decode($clanek['text'])), 0, 100, '...') ?>
                                     </p>
                                 </article>
                             </a>
@@ -98,19 +114,6 @@ $clanky = $clanekModel->getAll(3);
 
             </section>
 
-            <section class="cards" id="o">
-                <h2 class="title">Stručné představení</h2>
-                <div class="predstaveni__uvod">
-                    <div class="predstaveni__header">
-                        <div class="predstaveni__img"><img class="img--responsiv" src="../../../public/img/prof.png" alt="Profilová fotografie autora a majite OnSite SEO pod lupou"></div>
-                        <h3>Tomáš Pacák</h3>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla quis diam. Vivamus luctus egestas leo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.</p>
-                    <div class="text--right">
-                        <a href="#" class="btn">Více o mně</a>
-                    </div>
-                </div>
-            </section>
 
             <section class="navrhy text--center">
                 <h2>Máte zájem o spolupráci?</h2>
@@ -118,7 +121,7 @@ $clanky = $clanekModel->getAll(3);
                     <p class="navrhy__mail">OnSiteSEO@web.cz</p>
                     <div class="log__btns log__btns--kontakt">
                         <a class="btn" href="mailto:obchod@l3web.cz">Napsat Email</a>
-                        <a class="btn" href="#">Služby</a>
+                        <a class="btn btn--var2" href="./sluzby.php">Služby</a>
                     </div>
                 </div>
             </section>
@@ -154,6 +157,10 @@ $clanky = $clanekModel->getAll(3);
                         <div class="footer__text">
                             <a class="footer__odkaz" href="../admin/clanek_create.php">Přidat</a>
                             <a class="footer__odkaz" href="../admin/clanky_edit_delete.php">Editace</a>
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                                <a class="footer__odkaz" href="../admin/users_edit_delete.php">Uživatelé</a>
+                                <a class="footer__odkaz" href="../admin/komentare_delete.php">Komentáře</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -164,7 +171,7 @@ $clanky = $clanekModel->getAll(3);
                     <div class="paticka__wrapper">
                         <p>© Copyright 2025</p>
                     </div>
-                    <p>Vyrobil: Tomáš Pacák</p>
+                    <p>Vytvořil: Tomáš Pacák</p>
                 </div>
             </div>
         </footer>

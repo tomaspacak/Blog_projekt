@@ -1,12 +1,13 @@
 <?php
 
 class User {
-    private $db;
+    private $db; //PDO objekt, pripojeni k databazi
 
     public function __construct($db) {
         $this->db = $db;
     }
 
+    //kontrola existence uzivatele
     public function existsByUsername($username) {
         $stmt = $this->db->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->execute([$username]);
@@ -41,7 +42,7 @@ class User {
         return $stmt->execute([$id]);
     }
 
-    /*změna role*/
+    //změna role
     public function updateRole($id, $role) {
         $stmt = $this->db->prepare("UPDATE users SET role = ? WHERE id = ?");
         return $stmt->execute([$role, $id]);

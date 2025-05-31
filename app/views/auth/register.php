@@ -19,7 +19,7 @@
                 <h1 class="log__title text--center">Registrace</h1>
             </div>
             <div class="log__body text--right">
-                <form action="../../controllers/register.php" method="post">
+                <form action="../../controllers/register.php" method="post" id="registrationForm">
                     <div class="input__wrapper">
                         <input type="text" id="username" name="username" class="form-control" placeholder="HonzaN" required>
                         <label for="username" class="form-label">Uživatelské jméno:</label>
@@ -49,12 +49,15 @@
                         <input type="text" id="password_confirm" name="password_confirm" class="form-control" placeholder="********" required>
                         <label for="password_confirm" class="form-label">Potvrzení hesla:</label>
                     </div>
+                    <div id="passwordMatchMessage" class="warning d-none">
+                        <p>Hesla se neshodují.</p>
+                    </div>
 
                     <div class="log__btns">
                         <button type="submit" class="btn btn--log">Registrovat se</button>
-                        <a class="btn btn--var2" href="../auth/login.php">Přihlásit</a>
+                        <a class="btn btn--var2" href="./login.php">Přihlásit</a>
                     </div>
-                    <a class="link link--log" href="../blog/index.html">Domů</a>
+                    <a class="link link--log" href="../blog/index.php">Domů</a>
                     
                 </form>
             </div>
@@ -66,13 +69,13 @@
 
     </div>
 
-    <!-- Kontrola hesel v JS -->
+    <!-- Kontrola hesel -->
     <script>
         const form = document.getElementById('registrationForm');
         const password = document.getElementById('password');
         const confirm = document.getElementById('password_confirm');
         const message = document.getElementById('passwordMatchMessage');
-
+        
         form.addEventListener('submit', function (e) {
             if (password.value !== confirm.value) {
                 e.preventDefault();

@@ -1,13 +1,13 @@
 <?php
 session_start();
-// Kontrola, jestli je uživatel admin
+
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ./index.php");
+    header("Location: ../blog/index.php");
     die("Uživatel není přihlášen.");
 }
 $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
 if (!$isAdmin) {
-    header("Location: ./index.php");
+    header("Location: ../blog/index.php");
     exit();
 }
 
@@ -33,7 +33,7 @@ $users = $userModel->getAllUsers();
     <link rel="stylesheet" href="../../../public/css/style.css">
     <link rel="stylesheet" href="../../../public/css/richtext.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Editace - users</title>
+    <title>Uživatelé - OnSite SEO pod lupou</title>
 </head>
 <body>
     <div class="page">
@@ -51,22 +51,38 @@ $users = $userModel->getAllUsers();
                     </div>
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
-                            <li class="menu__item"><a href="../blog/clanky.php">Články</a></li>
-                            <li class="menu__item"><a href="#">Náš příběh</a></li>
+                            <div class="menuLeft menuRight">
+                                <li class="menu__item"><a href="../blog/clanky.php">Články</a></li>
+                                <li class="menu__item"><a href="./clanek_create.php">Správa</a></li>
+                                <li class="menu__item"><a href="../blog/sluzby.php">Služby</a></li>
+                            </div>
+                            
+                        
                             <?php if (isset($_SESSION['username'])): ?>
-                                <li class="menu__item">
-                                    <span class="nav-link text-white">Přihlášen jako: <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></span>
-                                </li>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../controllers/logout.php">Odhlásit se</a>
-                                </li>
+                                <div class="menuRight">
+                                    <div class="line"></div>
+                                    <li class="menu__item">
+                                        <div class="userLoged">
+                                            <div class="iconContainer"><img class="img--responsiv" src="../../../public/img/icon_user.svg" alt="ikona uzživatele"></div>
+                                            <p class="userLoged__text"><strong><?= htmlspecialchars($_SESSION['username']) ?></strong></p>
+                                        </div>
+                                    </li>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../controllers/logout.php">Odhlásit se</a>
+                                    </li>
+                                </div>
+                                
                             <?php else: ?>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
-                                </li>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
-                                </li>
+                                <div class="menuRight">
+                                    <div class="line"></div>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
+                                    </li>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
+                                    </li>
+                                </div>
+                                
                             <?php endif; ?>
                         </menu>
                     </nav>
@@ -80,8 +96,10 @@ $users = $userModel->getAllUsers();
                 <div class="adminNav">
                     <a class="adminNav__link" href="./clanek_create.php">Přidat článek</a>
                     <a class="adminNav__link" href="./clanky_edit_delete.php">Editovat článek</a>
-                    <a class="adminNav__link" href="./users_edit_delete.php">Uživatelé</a>
-                    <a class="adminNav__link" href="./komentare_delete.php">Komentáře</a>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <a class="adminNav__link" href="./users_edit_delete.php">Uživatelé</a>
+                        <a class="adminNav__link" href="./komentare_delete.php">Komentáře</a>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -165,7 +183,11 @@ $users = $userModel->getAllUsers();
                         <p class="footer__title">Správa</p>
                         <div class="footer__text">
                             <a class="footer__odkaz" href="./clanek_create.php">Přidat</a>
-                            <a class="footer__odkaz" href="./funkce.html">Editace</a>
+                            <a class="footer__odkaz" href="./clanky_edit_delete.php">Editace</a>
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                                <a class="footer__odkaz" href="./users_edit_delete.php">Uživatelé</a>
+                                <a class="footer__odkaz" href="./komentare_delete.php">Komentáře</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -176,7 +198,7 @@ $users = $userModel->getAllUsers();
                     <div class="paticka__wrapper">
                         <p>© Copyright 2025</p>
                     </div>
-                    <p>Vyrobil: Tomáš Pacák</p>
+                    <p>Vytvořil: Tomáš Pacák</p>
                 </div>
             </div>
         </footer>

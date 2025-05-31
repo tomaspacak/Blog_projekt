@@ -11,7 +11,7 @@
     --danger: #f42c2c;
 }
 
-
+html {scroll-behavior: smooth;}
 body{margin: 0; background: var(--gradientBg);}
 .page {
     background-color: var(--bg);
@@ -25,7 +25,6 @@ body{margin: 0; background: var(--gradientBg);}
 
 
 /*KOMPONENTY*/
-
 /*buttons*/
 .btn {
     display: inline-block;
@@ -34,13 +33,14 @@ body{margin: 0; background: var(--gradientBg);}
     font-weight: 600;
     padding: 0.5em 1.5em;
     border: solid var(--btn) 3px;
-    border-radius: 1em;
+    border-radius: 1.5em;
     margin: 0.25rem;
+    border: var(--primalC) solid 2px;
 }
 .btn:hover {
     background-color: var(--secondaryC);
     color: var(--bg);
-    border: var(--primalC);
+    border: var(--secondaryC) solid 2px;
 }
 .btn--var2 {
     border: var(--primalC) solid 2px;
@@ -60,18 +60,23 @@ body{margin: 0; background: var(--gradientBg);}
 }
 .btn--danger {
     background-color: var(--danger);
+    border: var(--danger) solid 2px;
 }
+
+/*zpravy*/
+.d-none {display: none;}
 
 
 /*karta clanku*/
 .card {
     position: relative;
     display: inline-block;
-    /*background-color: ;*/
     box-shadow: 0px 0px 15px var(--btnH);   
     border-radius: 8px;
     padding: 1em;
-    width: 15em;
+    min-width: 12em;
+    max-width: 18em;
+    /*width: 15em;*/
     transition: .5s;
 }
 .card:hover .card__title {
@@ -111,23 +116,11 @@ body{margin: 0; background: var(--gradientBg);}
 }
 
 
-
-.predstaveni__uvod {
-    padding: 1em;
-    border-radius: 1em;
-    box-shadow: 1px 4px 9px var(--text);
-    max-width: 48em;
-}
-.predstaveni__header {
-    border-bottom: solid 2px var(--bg-footer);
-}
-.predstaveni__img {
-    display: flex;
-    overflow: hidden;
-    background: var(--gradientBg);
-}
 .text--right {
     text-align: right;
+}
+.iconContainer {
+    width: 1em;
 }
 
 
@@ -314,13 +307,7 @@ footer {
     padding-bottom: 0;
     color: var(--text-footer);
 }
-/*.footer__kategory {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 0.7em;
-}*/
+
 .footer__text {
     display: flex;
     flex-direction: column;
@@ -409,9 +396,6 @@ footer {
     opacity: 0.2;
 }
 
-
-
-
 /*hamburger*/
 .navbar {
     position: relative;
@@ -427,7 +411,6 @@ footer {
 .hamburger {display: block;}
 .hamburger-nav menu {margin: 0; padding: 0;}
 .menu__item {display: block; margin: 0;}
-.menu__item--button {padding-left: 0;}
 .navbar__logo {
     position: absolute;
     transform: translate(0%, -50%);
@@ -458,6 +441,12 @@ footer {
 
 .hamburger-nav {transform: translateY(-100%); transition: 0.5s;}
 
+.userLoged {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+}
+
 @media screen and (max-width: 849px) { 
     .hamburger-row {
         position: relative;
@@ -465,7 +454,7 @@ footer {
         background-color: var(--bg-footer);
         border-radius: 1em;
     }
-    .menu__item a {
+    .menu__item a, .userLoged {
         display: block;
         padding: 1em 1.5em;
         color: var(--bg);   
@@ -506,6 +495,12 @@ footer {
         bottom: 18px;
         translate: .25s;
     }
+    .userLoged {
+        display: flex;
+        align-items: center;
+        gap: 0.8em;
+    }
+    .userLoged__text {margin: 0;}
 }
 @media screen and (min-width: 850px) {
     .hamburger-row {display: none;}
@@ -517,17 +512,17 @@ footer {
     }
     .hamburger-nav > menu {
         display: flex;
-        justify-content: end;
+        justify-content: space-around;
         align-items: center;
         gap: 1em;
     }
-    .menu__item a {
+    .menu__item a, .userLoged__text {
         display: block;
         color: var(--bg);
         transition: .2s;
         text-decoration: none;
         font-weight: 400;
-        /*font-size: 16px;*/
+        margin: 0;
     }
     .menu__item {padding: 0.5em; height: fit-content;}
     .menu__item a:hover {
@@ -535,5 +530,21 @@ footer {
         transition: .2s;
         font-weight: 600;
         color: var(--primalC);
+    }
+    .menuRight {
+        display: flex;
+        gap: 1em;
+        align-items: center;
+    }
+    .menuLeft {
+        flex-grow: 1;
+        margin-left: 5em;
+    }
+
+    .line {
+        height: 1.7em;
+        width: 3px;
+        background-color: var(--bg);
+        border-radius: 3px;
     }
 }

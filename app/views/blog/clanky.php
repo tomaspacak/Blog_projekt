@@ -40,23 +40,38 @@ $clanky = $clanekModel->getAll();
                     </div>
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
-                            <li class="menu__item"><a href="#">Články</a></li>
-                            <li class="menu__item"><a href="#">Služby</a></li>
-                            <li class="menu__item"><a href="#">O mně</a></li>
+                            <div class="menuLeft menuRight">
+                                <li class="menu__item"><a href="./clanky.php">Články</a></li>
+                                <li class="menu__item"><a href="../admin/clanek_create.php">Správa</a></li>
+                                <li class="menu__item"><a href="./sluzby.php">Služby</a></li>
+                            </div>
+                            
+                        
                             <?php if (isset($_SESSION['username'])): ?>
-                                <li class="menu__item">
-                                    <span class="nav-link text-white">Přihlášen jako: <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></span>
-                                </li>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../controllers/logout.php">Odhlásit se</a>
-                                </li>
+                                <div class="menuRight">
+                                    <div class="line"></div>
+                                    <li class="menu__item">
+                                        <div class="userLoged">
+                                            <div class="iconContainer"><img class="img--responsiv" src="../../../public/img/icon_user.svg" alt="ikona uzživatele"></div>
+                                            <p class="userLoged__text"><strong><?= htmlspecialchars($_SESSION['username']) ?></strong></p>
+                                        </div>
+                                    </li>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../controllers/logout.php">Odhlásit se</a>
+                                    </li>
+                                </div>
+                                
                             <?php else: ?>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
-                                </li>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
-                                </li>
+                                <div class="menuRight">
+                                    <div class="line"></div>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
+                                    </li>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
+                                    </li>
+                                </div>
+                                
                             <?php endif; ?>
                         </menu>
                     </nav>
@@ -68,11 +83,10 @@ $clanky = $clanekModel->getAll();
                     <div class="uvod__text">
                         <h1>Články</span></h1>
                         <h2>OnSite SEO <span class="secondaryC">pod lupou</span></h2>
-                        <p class="uvod__popis">Vítejte na mém blogu, který je o Onsite SEO. Moje krátké představení si můžete přečíst <a class="link" href="#o">níže</a>.</p>
                     </div>
                 </div>
                 <div class="uvod__img">
-                    <img class="img--responsiv" src="../../../public/img/hp_bg1.jpg" alt="#">
+                    <img class="img--responsiv" src="../../../public/img/hp_bg1.webp" alt="Ilustrace na téma On site SEO">
                 </div>
             </div>
         </header>
@@ -83,19 +97,13 @@ $clanky = $clanekModel->getAll();
 
             <section class="cards">
                 <div class="cards__wrapper cards__wrapper--all">
-                    <a class="card" href="#">
-                        <article class="card__wrapper">
-                            <h3 class="card__title">Jak na to</h3>
-                            <p class="card__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla quis diam. Vivamus luctus egestas leo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.</p>
-                        </article>
-                    </a>
 
                     <?php foreach ($clanky as $clanek): ?>
                         <a class="card" href="clanek_detail.php?id=<?= $clanek['id'] ?>">
                             <article class="card__wrapper">
                                 <h3 class="card__title"><?= htmlspecialchars($clanek['title']) ?></h3>
                                 <div class="card__text">
-                                    <?= mb_strimwidth(strip_tags(html_entity_decode($clanek['text'])), 0, 20, '...') ?>
+                                    <?= mb_strimwidth(strip_tags(html_entity_decode($clanek['text'])), 0, 100, '...') ?>
                                 </div>
                             </article>
                         </a>
@@ -153,8 +161,12 @@ $clanky = $clanekModel->getAll();
                     <div class="footer__kategory">
                         <p class="footer__title">Správa</p>
                         <div class="footer__text">
-                            <a class="footer__odkaz" href="./clanek_create.html">Přidat</a>
-                            <a class="footer__odkaz" href="./clanky_edit_delete.php">Editace</a>
+                            <a class="footer__odkaz" href="../admin/clanek_create.html">Přidat</a>
+                            <a class="footer__odkaz" href="../admin/clanky_edit_delete.php">Editace</a>
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                                <a class="footer__odkaz" href="../admin/users_edit_delete.php">Uživatelé</a>
+                                <a class="footer__odkaz" href="../admin/komentare_delete.php">Komentáře</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -165,14 +177,13 @@ $clanky = $clanekModel->getAll();
                     <div class="paticka__wrapper">
                         <p>© Copyright 2025</p>
                     </div>
-                    <p>Vyrobil: Tomáš Pacák</p>
+                    <p>Vytvořil: Tomáš Pacák</p>
                 </div>
             </div>
         </footer>
 
     </div>
 
-    
     <script src="../../../public/js/hamburger.js"></script>
 </body>
 </html>

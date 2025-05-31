@@ -16,26 +16,15 @@ class ClanekController {
     }
 
     public function createClanek() {
-        // Kontrola, jestli je uživatel admin
-        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
-    
+        
+        //kontrola prihlaseni
         if (!isset($_SESSION['user_id'])) {
             header("Location: ../views/blog/index.php");
             die("Uživatel není přihlášen.");
         }
 
-        $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
-        if (!$isAdmin) {
-            header("Location: ../views/blog/index.php");
-            exit();
-        }
-
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (!isset($_SESSION['user_id'])) {
-                die("Uživatel není přihlášen.");
-            }
             $userId = $_SESSION['user_id'];
-
             $title = htmlspecialchars($_POST['title']);
             $author = htmlspecialchars($_POST['author']);
             $category = htmlspecialchars($_POST['category']);
@@ -48,53 +37,46 @@ class ClanekController {
             // Zpracování nahraných obrázků
             $imagePaths = [];
             if (!empty($_FILES['images']['name'][0])) {
-                $uploadDir = '../public/images/';
-                foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
-                    $filename = basename($_FILES['images']['name'][$key]);
+                $uploadDir = '../public/img/';
+                foreach ($_FILES['img']['tmp_name'] as $key => $tmp_name) {
+                    $filename = basename($_FILES['img']['name'][$key]);
                     $targetPath = $uploadDir . $filename;
 
                     if (move_uploaded_file($tmp_name, $targetPath)) {
-                        $imagePaths[] = '/public/images/' . $filename; // Relativní cesta
+                        $imagePaths[] = '/public/img' . $filename; // Relativní cesta
                     }
                 }
             }
 
             // Zpracování zdrojů (přijde jako pole)
             $sourcesRaw = $_POST['sources'];
-            $sourcesClean = array_map('trim', $sourcesRaw);
-            $sourcesClean = array_filter($sourcesClean); // odstraní prázdné
-            $sourcesJson = json_encode($sourcesClean);
+            $sourcesClean = array_map('trim', $sourcesRaw); //odstrani mezery
+            $sourcesClean = array_filter($sourcesClean); // odstrani prazdne radky
+            $sourcesJson = json_encode($sourcesClean); //to JSON
             
+            //odeslani dat do databaze
             if ($this->clanekModel->create(
                 $title, $author, $category, $text, $sourcesJson,
                 $imagePaths, $user_id
             )) {
-                header("Location: ../views/blog/clanky_edit_delete.php");
+                header("Location: ../views/admin/clanky_edit_delete.php");
                 exit();
             } else {
-                echo "Chyba při ukládání knihy.";
+                echo "Chyba při ukládání článku.";
             }  
         }
     }
-
-    
-   /* public function listBooks () {
-        $clanky = $this->clanekModel->getAll();
-        include '../views/books/book_list.php';
-    }*/
 }
 
-
 $controller = new ClanekController();
-//$controller->createClanek();
-
-// Zavolá pouze pokud šlo o POST request (odeslání formuláře)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $controller->createClanek();
 }
 
-$commentModel = new Comment($this->db);
-$komentare = $commentModel->getByClanekId($clanek_id); // $clanek_id by mělo být id daného článku
+//?????
+
+/*$commentModel = new Comment($this->db);
+$komentare = $commentModel->getByClanekId($clanek_id);
 
 // Poté ve view předáš proměnnou $komentare
 include '../views/clanky/clanek_detail.php';

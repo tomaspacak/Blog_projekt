@@ -7,12 +7,9 @@ class Clanek {
         $this->db = $db;
     }
 
+    //ulozeni clanku do datbaze
     public function create($title, $author, $category, $text, $sources , $images, $user_id) {
         
-        // Dvojtečka označuje pojmenovaný parametr => Místo přímých hodnot se používají placeholdery.
-        // PDO je pak nahradí skutečnými hodnotami při volání metody execute().
-        // Chrání proti SQL injekci (bezpečnější než přímé vložení hodnot).
-       // Vkládáme i user_id, abychom měli vazbu na uživatele
        $sql = "INSERT INTO clanky (
                 title, author, category, text, sources, images, user_id
             ) VALUES (
@@ -21,13 +18,13 @@ class Clanek {
         
         $stmt = $this->db->prepare($sql);
         
-        return $stmt->execute([
+        $result = $stmt->execute([
             ':title' => $title,
             ':author' => $author,
             ':category' => $category,
             ':text' => $text,
             ':sources' => $sources,
-            ':images' => json_encode($images), // Ukládání obrázků jako JSON
+            ':images' => json_encode($images),
             ':user_id' => $user_id
         ]);
 
@@ -35,10 +32,11 @@ class Clanek {
             $error = $stmt->errorInfo();
             echo "Chyba při vkládání: " . $error[2]; // výpis chyby z PDO
         }
+
         return $result;
     }
 
-    
+    //ziskani clanku, moznost limitu
     public function getAll(int $limit = null): array {
         $sql = "SELECT * FROM clanky ORDER BY created_at DESC";
         if ($limit !== null) {
@@ -51,7 +49,7 @@ class Clanek {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //edit
+    //ziskani konkretniho clanku
     public function getById($id) {
         $sql = "SELECT * FROM clanky WHERE id = :id";
         $stmt = $this->db->prepare($sql);
@@ -60,12 +58,13 @@ class Clanek {
     }
 
     //nahrani novych dat
-    public function update($id, $title, $author, $category, $text /*$sources , $images,*/) {
+    public function update($id, $title, $author, $category, $text, $sources) {
         $sql = "UPDATE clanky 
                 SET title = :title,
                     author = :author,
                     category = :category,
-                    text = :text
+                    text = :text,
+                    sources = :sources
                 WHERE id = :id";
     
         $stmt = $this->db->prepare($sql);
@@ -75,19 +74,22 @@ class Clanek {
             ':author' => $author,
             ':category' => $category,
             ':text' => $text,
+            ':sources' => $sources,
         ]);
     }
 
+    //smazani konkretniho clanku
     public function delete($id) {
         $sql = "DELETE FROM clanky WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':id' => $id]);
     }
 
+    //3 nejnovejsi clanky, jen ID
     public function getLastFreeClanky($limit = 3) {
-    $stmt = $this->db->prepare("SELECT id FROM clanky ORDER BY created_at DESC LIMIT :limit");
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
-}
+        $stmt = $this->db->prepare("SELECT id FROM clanky ORDER BY created_at DESC LIMIT :limit");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
 }

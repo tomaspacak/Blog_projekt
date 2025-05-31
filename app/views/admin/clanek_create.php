@@ -1,17 +1,17 @@
 <?php
 session_start();
 
-// Kontrola, jestli je uživatel admin 
+
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ./index.php");
+    header("Location: ../blog/index.php");
     die("Uživatel není přihlášen.");
 }
 
-$isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+/*$isAdmin = ($_SESSION['role'] ?? '') === 'admin';
 if (!$isAdmin) {
     header("Location: ./index.php");
     exit();
-}
+}*/
 
 ?>
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ if (!$isAdmin) {
     <link rel="stylesheet" href="../../../public/css/style.css">
     <link rel="stylesheet" href="../../../public/css/richtext.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Přidat článek</title>
+    <title>Přidat článek - OnSite SEO pod lupou</title>
 </head>
 <body>
     <div class="page">
@@ -46,22 +46,38 @@ if (!$isAdmin) {
                     </div>
                     <nav class="hamburger-nav hamburger-zone">
                         <menu>
-                            <li class="menu__item"><a href="../blog/clanky.php">Články</a></li>
-                            <li class="menu__item"><a href="#">Náš příběh</a></li>
+                            <div class="menuLeft menuRight">
+                                <li class="menu__item"><a href="../blog/clanky.php">Články</a></li>
+                                <li class="menu__item"><a href="./clanek_create.php">Správa</a></li>
+                                <li class="menu__item"><a href="../blog/sluzby.php">Služby</a></li>
+                            </div>
+                            
+                        
                             <?php if (isset($_SESSION['username'])): ?>
-                                <li class="menu__item">
-                                    <span class="nav-link text-white">Přihlášen jako: <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></span>
-                                </li>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../controllers/logout.php">Odhlásit se</a>
-                                </li>
+                                <div class="menuRight">
+                                    <div class="line"></div>
+                                    <li class="menu__item">
+                                        <div class="userLoged">
+                                            <div class="iconContainer"><img class="img--responsiv" src="../../../public/img/icon_user.svg" alt="ikona uzživatele"></div>
+                                            <p class="userLoged__text"><strong><?= htmlspecialchars($_SESSION['username']) ?></strong></p>
+                                        </div>
+                                    </li>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../controllers/logout.php">Odhlásit se</a>
+                                    </li>
+                                </div>
+                                
                             <?php else: ?>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
-                                </li>
-                                <li class="menu__item">
-                                    <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
-                                </li>
+                                <div class="menuRight">
+                                    <div class="line"></div>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../views/auth/login.php">Přihlášení</a>
+                                    </li>
+                                    <li class="menu__item">
+                                        <a class="nav-link" href="../../views/auth/register.php">Registrace</a>
+                                    </li>
+                                </div>
+                                
                             <?php endif; ?>
                         </menu>
                     </nav>
@@ -75,8 +91,10 @@ if (!$isAdmin) {
                 <div class="adminNav">
                     <a class="adminNav__link" href="./clanek_create.php">Přidat článek</a>
                     <a class="adminNav__link" href="./clanky_edit_delete.php">Editovat článek</a>
-                    <a class="adminNav__link" href="./users_edit_delete.php">Uživatelé</a>
-                    <a class="adminNav__link" href="./komentare_delete.php">Komentáře</a>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <a class="adminNav__link" href="./users_edit_delete.php">Uživatelé</a>
+                        <a class="adminNav__link" href="./komentare_delete.php">Komentáře</a>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="create__body">
@@ -88,14 +106,20 @@ if (!$isAdmin) {
                     </div>
                     
                     <div class="input__wrapper">
-                        <input type="text" id="author" name="author" class="form-control" placeholder="Me" required>
+                        <input type="text" id="author" name="author" class="form-control" placeholder="Me" required value="<?= htmlspecialchars($_SESSION['username']) ?>">
                         <label for="author" class="form-label">Autor:</label>
                     </div>
-
+                    
                     <div class="input__wrapper">
-                        <input type="text" id="category" name="category" class="form-control" placeholder="HonzaN" required>
-                        <label for="category" class="form-label">kategorie?</label>
+                        <select name="category" id="category" class="form-control" required>
+                            <option value="" disabled selected>Vyberte kategorii (nepovinné)</option>
+                            <option value="Základy">Základy</option>
+                            <option value="HTML">HTML</option>
+                            <option value="Content">Content</option>
+                        </select>
+                        <label for="category" class="form-label">Kategorie:</label>
                     </div>
+                    
 
                     <div class="input__wrapper">
                         <label for="text" class="form-label form-label--text">Text:</label>
@@ -110,7 +134,7 @@ if (!$isAdmin) {
                        
                        
                         <label for="sources" class="form-label">Zdroje:</label>
-                        <button type="button" onclick="pridatZdroj()">Přidat další zdroj</button>
+                        <button class="btn btn--var2" type="button" onclick="pridatZdroj()">Přidat další zdroj</button>
                     </div>
 
                     <div class="input__wrapper">
@@ -120,7 +144,6 @@ if (!$isAdmin) {
 
                     <div class="log__btns log__btns--create">
                         <button type="submit" class="btn btn--log">Uložit článek</button>
-                        <a class="btn btn--var2" href="#">Editace článků</a>
                     </div>
                 </form>
             </div>
@@ -144,8 +167,7 @@ if (!$isAdmin) {
                                 <a class="footer__odkaz footer__odkaz--mail" href="mailto:obchod@l3web.cz">SEO@web.cz</a>
                                 <div class="footer__icons">
                                     <a href="#"><img class="footer__icon" src="../../../public/img/icon_instagram.svg" alt="Logo Instagram"></a>
-                                    <a href="#"><img class="footer__icon" src="../../../public/img/footer_linkedin.svg" alt="Logo LinkedIn"></a>
-                                    
+                                    <a href="#"><img class="footer__icon" src="../../../public/img/footer_linkedin.svg" alt="Logo LinkedIn"></a>  
                                 </div>
                             </div>
                         </div>
@@ -167,7 +189,7 @@ if (!$isAdmin) {
                     <div class="paticka__wrapper">
                         <p>© Copyright 2025</p>
                     </div>
-                    <p>Vyrobil: Tomáš Pacák</p>
+                    <p>Vytvořil: Tomáš Pacák</p>
                 </div>
             </div>
         </footer>

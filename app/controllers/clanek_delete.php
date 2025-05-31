@@ -1,5 +1,6 @@
 
 <?php
+    session_start();
     require_once '../models/Database.php';
     require_once '../models/Clanek.php';
 
@@ -19,14 +20,14 @@
         $ownsClanek = $currentUserId == $clanek['user_id'];
 
         if (!$isAdmin && !$ownsClanek) {
-            die("Nemáte oprávnění smazat tuto knihu.");
+            die("Nemáte oprávnění smazat tento článek.");
         }
 
         if ($clanekModel->delete($id)) {
             header("Location: ../views/admin/clanky_edit_delete.php");
             exit();
         } else {
-            echo "Chyba při mazání knihy.";
+            echo "Chyba při mazání článku.";
         }
     } else {
         echo "Neplatný požadavek.";

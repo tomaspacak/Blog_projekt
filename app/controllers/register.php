@@ -1,15 +1,14 @@
 <?php
+//import
 require_once '../models/Database.php';
 require_once '../models/User.php';
 
-session_start();
+session_start(); //ukladani informaci napric strankami
 
-// Připojení k databázi a model
 $db = (new Database())->getConnection();
 $userModel = new User($db);
 
-// Validace POST dat
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { //kontrola odeslani formulare
     $username = trim($_POST['username']);
     $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
     $name = !empty($_POST['name']) ? trim($_POST['name']) : null;
@@ -17,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $password_confirm = $_POST['password_confirm'];
 
-    /*přidat mail?*/
+    
     if (empty($username) || empty($password) || empty($password_confirm)) {
         die('Vyplňte prosím všechna povinná pole.');
     }
