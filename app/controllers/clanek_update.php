@@ -29,6 +29,12 @@
         $author = htmlspecialchars($_POST['author']);
         $category = htmlspecialchars($_POST['category']);
         $text = htmlspecialchars($_POST['text']);
+        
+        $sourcesRaw = $_POST['sources'];
+        $sourcesClean = array_map('trim', $sourcesRaw);
+        $sourcesClean = array_filter($sourcesClean);
+        $sourcesJson = json_encode($sourcesClean);
+        $sources = $sourcesJson;
 
         $db = (new Database())->getConnection();
         $clanekModel = new Clanek($db);
@@ -39,7 +45,8 @@
             $title,
             $author,
             $category,
-            $text
+            $text,
+            $sources
         );
 
         if ($success) {

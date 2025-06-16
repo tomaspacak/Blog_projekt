@@ -157,7 +157,7 @@
         padding: 0.5em 4em;
     }
     .uvod, section {
-        margin-bottom: 8em;
+        margin-bottom: 4em;
     }
 
     .uvod__text {
@@ -207,7 +207,7 @@
 @media (min-width: 1461px) {
 
     .uvod, section {
-        margin-bottom: 12em;
+        margin-bottom: 8em;
     }
     .page {
         margin: 4em auto;

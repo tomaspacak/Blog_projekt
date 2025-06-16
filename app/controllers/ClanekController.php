@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 //?????
 
-/*$commentModel = new Comment($this->db);
+$commentModel = new Comment($this->db);
 $komentare = $commentModel->getByClanekId($clanek_id);
 
 // Poté ve view předáš proměnnou $komentare
