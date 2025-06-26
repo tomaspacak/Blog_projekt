@@ -177,8 +177,12 @@ if (!$isAdmin) {
                     <div class="footer__kategory">
                         <p class="footer__title">Správa</p>
                         <div class="footer__text">
-                            <a class="footer__odkaz" href="./clanek_create">Přidat</a>
+                            <a class="footer__odkaz" href="./clanek_create.php">Přidat</a>
                             <a class="footer__odkaz" href="./clanky_edit_delete.php">Editace</a>
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                                <a class="footer__odkaz" href="./users_edit_delete.php">Uživatelé</a>
+                                <a class="footer__odkaz" href="./komentare_delete.php">Komentáře</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
